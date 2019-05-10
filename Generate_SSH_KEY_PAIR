@@ -1,0 +1,39 @@
+A. Create a user
+$: useradd username
+$: passwd username
+
+a. enter the password 2x
+b. check if user is created accordingly 
+ $: cat /etc/pass
+ 
+ B. Give this user root priviliges
+ b.1 check to which group this user belongs to :
+ $: cat /etc/sudoers.d/xxxfile    %% group might be different
+ 
+ b.2 add the newly created user to this group
+ 
+ $: usermod -aG groupname username
+ 
+ 
+ C. Generate a ssh key pair for this user 
+ 
+ c.1 $: ssh-keygen -t rsa 
+ 
+ c.2 Copy the public key file  
+ authorized_keys under the path : /home/user/.ssh/
+ 
+ c.3 Copy the private kay content and paste it in a notepad
+ than save it as .ppk file
+ c.4 Convert the private key in a putty format key with puttygen tool
+ 
+ D. Edit the sshd_config file under /etc/ssh
+ 
+ # line 65: turn to [no]
+PasswordAuthentication no
+# line 69: make sure the value is [no]
+ChallengeResponseAuthentication no
+# line 96: make sure the value is [yes]
+UsePAM yes
+[root@dlp ~]# systemctl restart sshd 
+
+.**************Ready to Log in ******************
